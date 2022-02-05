@@ -1,8 +1,14 @@
 <template>
   <div class="wrapper">
-    <router-link to="/red"> <div class="item red"></div></router-link>
-    <div class="item animation yellow border animation"> <div class="timer"> {{ timer }}</div></div>
-    <router-link to="/green"><div class="item green "></div></router-link>
+    <router-link to="/red">
+      <div class="item red"></div>
+    </router-link>
+    <div class="item animation yellow border animation">
+      <div class="timer"> {{ timer }}</div>
+    </div>
+    <router-link to="/green">
+      <div class="item green "></div>
+    </router-link>
 
   </div>
 </template>
@@ -14,46 +20,51 @@ export default {
     return {
       timer: 3,
       prevRoute: null
-    }
+    };
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.prevRoute = from
-    })
+      vm.prevRoute = from;
+    });
   },
   methods: {
     timerBlock() {
+      if(this.$route.path != '/yellow') {
+        localStorage.removeItem('timeYellow');
+        return
+      }
       if (this.timer) {
         return setTimeout(() => {
-          --this.timer
+          --this.timer;
+
           localStorage.setItem('timeYellow',this.timer);
-          if(this.timer == 0){
-            localStorage.setItem('timeYellow',this.timer);
-            setTimeout(() => {
-              if(this.prevRoute.path == '/red') {
-                this.$router.push('/green')
-                localStorage.setItem('timeYellow', 3);
-              }
-              if (this.prevRoute.path == '/green') {
-                this.$router.push('/red')
-                localStorage.setItem('timeYellow', 3);
-              }
-            }, 1000)
+          if (this.timer == 0) {
+
+            localStorage.removeItem('timeYellow');
+            if (this.prevRoute.path == "/red") {
+              this.$router.push("/green");
+            }
+            if (this.prevRoute.path == "/green") {
+              this.$router.push("/red");
+            }
           }
-          this.timerBlock()
-        }, 1000)
+          this.timerBlock();
+        }, 1000);
       }
     }
+
   },
   mounted() {
     if(localStorage.getItem('timeYellow')) {
       this.timer = JSON.parse(localStorage.getItem('timeYellow'))
     }
-    this.timerBlock()
-  },
+    this.timerBlock();
 
 
-}
+  }
+
+
+};
 </script>
 
 <style scoped>
@@ -61,9 +72,11 @@ export default {
 .red {
   background: rgba(255, 0, 0, 0.25);
 }
+
 .yellow {
   background: rgba(255, 255, 0, 1);
 }
+
 .green {
   background: rgba(0, 255, 0, 0.25);
 }

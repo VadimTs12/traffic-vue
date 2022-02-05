@@ -74,5 +74,6 @@ h1 {
 <script>
 export default {
   name: 'App',
+
 }
 </script>

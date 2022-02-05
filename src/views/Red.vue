@@ -1,12 +1,16 @@
 <template>
   <div class="wrapper">
     <div class="item red border "
-    :class="{'animation': (timer < 4 ) }"
+         :class="{'animation': (timer < 4 ) }"
     >
       <div class="timer"> {{ timer }}</div>
     </div>
-    <router-link to="/yellow"><div class="item yellow "></div></router-link>
-    <router-link to="/green"> <div class="item green "></div></router-link>
+    <router-link to="/yellow">
+      <div class="item yellow "></div>
+    </router-link>
+    <router-link to="/green">
+      <div class="item green "></div>
+    </router-link>
 
   </div>
 
@@ -18,23 +22,24 @@ export default {
   data() {
     return {
       timer: 10
-    }
+    };
   },
   methods: {
     timerBlock() {
+      if(this.$route.path != '/red') {
+        localStorage.removeItem('timeRed');
+        return
+      }
       if (this.timer) {
         return setTimeout(() => {
-          --this.timer
+          --this.timer;
           localStorage.setItem('timeRed',this.timer);
-          if(this.timer == 0) {
-            localStorage.setItem('timeRed',this.timer);
-            setTimeout(() => {
-              this.$router.push('/yellow')
-              localStorage.setItem('timeRed', 10);
-            }, 1000)
+          if (this.timer == 0) {
+            localStorage.removeItem('timeRed');
+            this.$router.push("/yellow");
           }
-          this.timerBlock()
-        }, 1000)
+          this.timerBlock();
+        }, 1000);
       }
     }
   },
@@ -42,9 +47,9 @@ export default {
     if(localStorage.getItem('timeRed')) {
       this.timer = JSON.parse(localStorage.getItem('timeRed'))
     }
-    this.timerBlock()
-  },
-}
+    this.timerBlock();
+  }
+};
 </script>
 
 <style scoped>
