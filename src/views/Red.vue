@@ -3,7 +3,7 @@
     <div class="item red border "
     :class="{'animation': (timer < 4 ) }"
     >
-      <div class="timer"> {{  timer }}</div>
+      <div class="timer"> {{ timer }}</div>
     </div>
     <router-link to="/yellow"><div class="item yellow "></div></router-link>
     <router-link to="/green"> <div class="item green "></div></router-link>
@@ -25,9 +25,12 @@ export default {
       if (this.timer) {
         return setTimeout(() => {
           --this.timer
+          localStorage.setItem('timeRed',this.timer);
           if(this.timer == 0) {
+            localStorage.setItem('timeRed',this.timer);
             setTimeout(() => {
               this.$router.push('/yellow')
+              localStorage.setItem('timeRed', 10);
             }, 1000)
           }
           this.timerBlock()
@@ -36,6 +39,9 @@ export default {
     }
   },
   mounted() {
+    if(localStorage.getItem('timeRed')) {
+      this.timer = JSON.parse(localStorage.getItem('timeRed'))
+    }
     this.timerBlock()
   },
 }

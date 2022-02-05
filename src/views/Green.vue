@@ -24,9 +24,12 @@ export default {
       if (this.timer) {
         return setTimeout(() => {
           --this.timer
+          localStorage.setItem('timeGreen',this.timer);
           if (this.timer == 0) {
+            localStorage.setItem('timeGreen',this.timer);
             setTimeout(() => {
               this.$router.push('/yellow')
+              localStorage.setItem('timeGreen', 15);
             }, 1000)
           }
           this.timerBlock()
@@ -35,6 +38,9 @@ export default {
     }
   },
   mounted() {
+    if(localStorage.getItem('timeGreen')) {
+      this.timer = JSON.parse(localStorage.getItem('timeGreen'))
+    }
     this.timerBlock()
   },
 }

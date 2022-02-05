@@ -26,13 +26,17 @@ export default {
       if (this.timer) {
         return setTimeout(() => {
           --this.timer
+          localStorage.setItem('timeYellow',this.timer);
           if(this.timer == 0){
+            localStorage.setItem('timeYellow',this.timer);
             setTimeout(() => {
               if(this.prevRoute.path == '/red') {
                 this.$router.push('/green')
+                localStorage.setItem('timeYellow', 3);
               }
               if (this.prevRoute.path == '/green') {
                 this.$router.push('/red')
+                localStorage.setItem('timeYellow', 3);
               }
             }, 1000)
           }
@@ -42,6 +46,9 @@ export default {
     }
   },
   mounted() {
+    if(localStorage.getItem('timeYellow')) {
+      this.timer = JSON.parse(localStorage.getItem('timeYellow'))
+    }
     this.timerBlock()
   },
 
