@@ -28,7 +28,6 @@ export default {
           --this.timer
           if(this.timer == 0){
             setTimeout(() => {
-              console.log(this.prevRoute.path)
               if(this.prevRoute.path == '/red') {
                 this.$router.push('/green')
               }

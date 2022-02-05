@@ -6,6 +6,10 @@ import Green from "@/views/Green";
 
 const routes = [
     {
+        path: '/',
+        redirect: "/red"
+    },
+    {
         path: "/red",
         name: "Red",
         component: Red,
@@ -24,12 +28,7 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.prevRoute = from
-        })
-    },
+    mode: 'history',
     routes,
 });
-
 export default router;

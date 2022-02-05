@@ -74,19 +74,5 @@ h1 {
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-    }
-  },
-  methods: {
-
-  },
-  created() {
-    setTimeout(() => {
-      this.$router.push('/red')
-    }, 0)
-  },
-
-
 }
 </script>
