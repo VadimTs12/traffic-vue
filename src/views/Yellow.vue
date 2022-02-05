@@ -3,13 +3,13 @@
     <router-link to="/red">
       <div class="item red"></div>
     </router-link>
-    <div class="item animation yellow border animation">
+    <div class="item yellow border"
+         :class="{'animation': (timer < 4 ) }">
       <div class="timer"> {{ timer }}</div>
     </div>
     <router-link to="/green">
       <div class="item green "></div>
     </router-link>
-
   </div>
 </template>
 
@@ -29,18 +29,16 @@ export default {
   },
   methods: {
     timerBlock() {
-      if(this.$route.path != '/yellow') {
-        localStorage.removeItem('timeYellow');
-        return
+      if (this.$route.path != "/yellow") {
+        localStorage.removeItem("timeYellow");
+        return;
       }
       if (this.timer) {
         return setTimeout(() => {
           --this.timer;
-
-          localStorage.setItem('timeYellow',this.timer);
+          localStorage.setItem("timeYellow", this.timer);
           if (this.timer == 0) {
-
-            localStorage.removeItem('timeYellow');
+            localStorage.removeItem("timeYellow");
             if (this.prevRoute.path == "/red") {
               this.$router.push("/green");
             }
@@ -55,8 +53,8 @@ export default {
 
   },
   mounted() {
-    if(localStorage.getItem('timeYellow')) {
-      this.timer = JSON.parse(localStorage.getItem('timeYellow'))
+    if (localStorage.getItem("timeYellow")) {
+      this.timer = JSON.parse(localStorage.getItem("timeYellow"));
     }
     this.timerBlock();
 
